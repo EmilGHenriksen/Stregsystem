@@ -9,22 +9,22 @@ namespace stregsystem.Models
         static int nextId = 0;
         public User(string firstName, string lastName, string username, string email)
         {
-            id = nextId++;
-            FirstName = firstName;
-            LastName = lastName;
-            UserName = username;
+            Id = nextId++;
+            Firstname = firstName;
+            Lastname = lastName;
+            Username = username;
             Email = email;
         }
-        public int id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string UserName { get; set; }
+        public int Id { get; set; }
+        public string Firstname { get; set; }
+        public string Lastname { get; set; }
+        public string Username { get; set; }
         public string Email { get; set; }
         public decimal Balance { get; set; }
 
         public override string ToString()
         {
-            return FirstName + " " + LastName + " " + Email;
+            return Firstname + " " + Lastname + " " + Email;
         }
         public int CompareTo(User obj)
         {
