@@ -4,7 +4,7 @@ using System.Text;
 
 namespace stregsystem.Models
 {
-    class Product
+    public class Product
     {
         public Product(int id)
         {

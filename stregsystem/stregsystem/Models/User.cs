@@ -10,10 +10,20 @@ namespace stregsystem.Models
         public User(string firstName, string lastName, string username, string email)
         {
             Id = nextId++;
-            Firstname = firstName;
-            Lastname = lastName;
             Username = username;
             Email = email;
+            if (firstName == null)
+            {
+                throw new ArgumentNullException("First name cannot be null");
+            }
+            else
+                Firstname = firstName;
+            if (lastName == null)
+            {
+                throw new ArgumentNullException("Last name cannot be null");
+            }
+            else
+                Lastname = lastName;
         }
         public int Id { get; set; }
         public string Firstname { get; set; }
@@ -28,7 +38,7 @@ namespace stregsystem.Models
         }
         public int CompareTo(User obj)
         {
-            if (obj.id > id)
+            if (obj.Id > Id)
             {
                 return 1;
             }
