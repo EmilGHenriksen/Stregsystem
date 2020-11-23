@@ -6,7 +6,7 @@ namespace stregsystem.Models
 {
     public class Product
     {
-        public Product(int id)
+        public Product(int id, string name, decimal price, bool active, bool canBeBoughtOnCredit)
         {
             if (id < 1)
             {
@@ -14,6 +14,10 @@ namespace stregsystem.Models
             }
             else
                 Id = id;
+            Name = name;
+            Price = price;
+            Active = active;
+            CanBeBoughtOnCredit = canBeBoughtOnCredit;
         }
         public int Id { get; set; }
         public string Name { get; set; }

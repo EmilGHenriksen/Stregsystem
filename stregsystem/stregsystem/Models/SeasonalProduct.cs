@@ -6,7 +6,7 @@ namespace stregsystem.Models
 {
     public class SeasonalProduct : Product
     {
-        public SeasonalProduct(int id, DateTime seasonStartDate, DateTime seasonEndDate) : base(id)
+        public SeasonalProduct(int id, string name, decimal price, bool active, bool canBeBoughtOnCredit, DateTime seasonStartDate, DateTime seasonEndDate) : base(id, name, price, active, canBeBoughtOnCredit)
         {
 
         }

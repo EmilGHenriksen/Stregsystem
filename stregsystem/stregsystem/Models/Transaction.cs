@@ -6,6 +6,11 @@ namespace stregsystem.Models
 {
     abstract class Transaction
     {
+        public Transaction (User user)
+	{
+
+	}
+
         public int Id { get; set; }
         public User User { get; set; }
         public decimal Amount { get; set; }
