@@ -6,9 +6,19 @@ namespace stregsystem.Models
 {
     abstract class Transaction
     {
-        public Transaction (User user)
+        public Transaction (User user, int id, decimal amount, DateTime date)
 	{
-
+            if (user == null)
+            {
+                throw new ArgumentNullException("User cannot be null");
+            }
+            else
+            {
+                User = user;
+            }
+            Id = id;
+            Amount = amount;
+            Date = date;
 	}
 
         public int Id { get; set; }

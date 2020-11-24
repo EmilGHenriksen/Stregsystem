@@ -34,7 +34,7 @@ namespace stregsystem.Models
 
         public override string ToString()
         {
-            return Firstname + " " + Lastname + " " + Email;
+            return Firstname + " " + Lastname + " (" + Email + ")";
         }
         public int CompareTo(User obj)
         {
@@ -46,6 +46,8 @@ namespace stregsystem.Models
             {
                 return -1;
             }
+
         }
+        // TODO: Gethashcode
     }
 }

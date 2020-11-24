@@ -6,25 +6,25 @@ namespace stregsystem.Models
 {
     class BuyTransaction : Transaction
     {
-        public BuyTransaction(User user) : base(user)
+        public BuyTransaction(User user, int id, decimal amount, DateTime date, int price, Product product) : base(user, id, amount, date)
         {
-
+            Price = price;
+            Product = product;
         }
-        public decimal PriceAmount { get; set; }
-
+        public decimal Price { get; set; }
+        public Product Product { get; set; }
         public override void Execute()
         {
-
+            //TODO: Lav insuficcientCreditsException
+            if (User.Balance - Price < 0)
+            {
+                throw new NotImplementedException();
+            }
+            User.Balance -= Price;
         }
-
-
-        /*
-         * Skal indeholde "tale om et køb,
-         * beløb, bruger, produkt, hvornår købet blev foretaget, og transaktionens id"
-         */
         public override string ToString()
         {
-           throw new NotImplementedException();
+            return "Purchase - " + " Price: " + Price + " User: " + User.ToString() + " Product: " + Product + " Date: " + Date + " ID: " + Id;
         }
     }
 }
