@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace stregsystem.Models
 {
-    class FileHandler
+    public class FileHandler
     {
         string[] productsFile = File.ReadAllLines("products" + ".csv");
         string[] usersFile = File.ReadAllLines("users" + ".csv");
