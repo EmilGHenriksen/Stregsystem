@@ -4,9 +4,10 @@ using System.Text;
 
 namespace stregsystem.Models
 {
-    abstract class Transaction
+    public abstract class Transaction
     {
-        public Transaction (User user, int id, decimal amount, DateTime date)
+        static int nextId = 0;
+        public Transaction (User user, decimal amount, DateTime date)
 	{
             if (user == null)
             {
@@ -16,7 +17,7 @@ namespace stregsystem.Models
             {
                 User = user;
             }
-            Id = id;
+            Id = nextId++;
             Amount = amount;
             Date = date;
 	}

@@ -4,9 +4,9 @@ using System.Text;
 
 namespace stregsystem.Models
 {
-    class InsertCashTransaction : Transaction
+    public class InsertCashTransaction : Transaction
     {
-        public InsertCashTransaction(User user, int id, decimal amount, DateTime date) : base(user, id, amount, date)
+        public InsertCashTransaction(User user, decimal amount, DateTime date) : base(user, amount, date)
         {
         }
         public override void Execute()

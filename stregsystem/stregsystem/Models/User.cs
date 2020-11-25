@@ -4,14 +4,15 @@ using System.Text;
 
 namespace stregsystem.Models
 {
-    class User : IComparable<User>
+    public class User : IComparable<User>
     {
         static int nextId = 0;
-        public User(string firstName, string lastName, string username, string email)
+        public User(string firstName, string lastName, string username, decimal balance, string email)
         {
             Id = nextId++;
             Username = username;
             Email = email;
+            Balance = balance;
             if (firstName == null)
             {
                 throw new ArgumentNullException("First name cannot be null");

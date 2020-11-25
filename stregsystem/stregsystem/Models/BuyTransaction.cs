@@ -4,9 +4,9 @@ using System.Text;
 
 namespace stregsystem.Models
 {
-    class BuyTransaction : Transaction
+    public class BuyTransaction : Transaction
     {
-        public BuyTransaction(User user, int id, decimal amount, DateTime date, int price, Product product) : base(user, id, amount, date)
+        public BuyTransaction(User user, decimal amount, DateTime date, decimal price, Product product) : base(user, amount, date)
         {
             Price = price;
             Product = product;

@@ -9,10 +9,15 @@ namespace stregsystem
     {
         static void Main(string[] args)
         {
-            FileLoader fileloader = new FileLoader();
-            List<Product> testList = fileloader.GenerateProducts();
+            FileHandler fileloader = new FileHandler();
+            List<Product> testList = fileloader.GenerateProductsList();
+            List<User> testListUser = fileloader.GenerateUsersList();
 
             foreach (Product item in testList)
+            {
+                Console.WriteLine(item);
+            }
+            foreach (User item in testListUser)
             {
                 Console.WriteLine(item);
             }
