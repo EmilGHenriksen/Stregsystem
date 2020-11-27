@@ -6,11 +6,14 @@ namespace stregsystem.Models
 {
     public class BuyTransaction : Transaction
     {
-        public BuyTransaction(User user, decimal amount, DateTime date, decimal price, Product product) : base(user, amount, date)
+        
+        public BuyTransaction(User user, decimal amount, DateTime date, decimal price, Product product, User.UserBalanceNotification userBalanceNotification) : base(user, amount, date)
         {
             Price = price;
             Product = product;
+            UserBalanceNotification = userBalanceNotification;
         }
+        private User.UserBalanceNotification UserBalanceNotification;
         public decimal Price { get; set; }
         public Product Product { get; set; }
         public override Transaction Execute(TransactionLogger transactionLogger)
@@ -25,9 +28,14 @@ namespace stregsystem.Models
             }
             User.Balance -= Price;
 
+            if (User.Balance < 50)
+            {
+                UserBalanceNotification?.Invoke(User, User.Balance);
+            }
+
             transactionLogger.WriteBuyTransactionToTransactionLog(this);
             return this;
-            // TODO: UserBalanceNotification
+
         }
         public override string ToString()
         {

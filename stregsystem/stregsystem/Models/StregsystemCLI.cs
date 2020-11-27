@@ -80,7 +80,6 @@ namespace stregsystem.Models
                 CommandEntered?.Invoke(userInput);
             }
         }
-
         private void DisplayActiveProducts()
         {
             IEnumerable<Product> ActiveProducts = Stregsystem.ActiveProducts;
@@ -90,8 +89,9 @@ namespace stregsystem.Models
             }
             Console.WriteLine();
         }
-
-        
-        
+        public void DisplayLowBalance(User user, decimal balance)
+        {
+            Console.WriteLine("User " + user.Username + " has a balance below 50 stregdollars " + "(User balance: " + balance + ")");
+        }
     }
 }

@@ -18,6 +18,7 @@ namespace stregsystem.Interfaces
         void DisplayInsufficientCash(User user, Product product);
         void DisplayInsufficientCash(User user, Product product, int count);
         void DisplayGeneralError(string errorString);
+        void DisplayLowBalance(User user, decimal balance);
         void Start();
         public event StregsystemCLI.StregsystemEvent CommandEntered;
     }

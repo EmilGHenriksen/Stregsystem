@@ -33,6 +33,8 @@ namespace stregsystem.Models
         public string Email { get; set; }
         public decimal Balance { get; set; }
 
+        public delegate void UserBalanceNotification(User user, decimal balance);
+
         public override string ToString()
         {
             return Firstname + " " + Lastname + " (" + Email + ")";

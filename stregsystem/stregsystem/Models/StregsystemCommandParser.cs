@@ -17,15 +17,15 @@ namespace stregsystem.Models
 
         private delegate void adminCommand(string[] command);
         private Dictionary<string, adminCommand> adminCommands = new Dictionary<string, adminCommand>();
-        
+
 
         public StregsystemCommandParser(IStregsystem stregsystem, IStregsystemUi stregsystemUi)
         {
             Stregsystem = stregsystem;
             StregsystemUi = stregsystemUi;
-
             GenerateAdminCommands();
             stregsystemUi.CommandEntered += ParseCommand;
+            stregsystem.UserBalanceNotification += UserNotification;
         }
         private IStregsystem Stregsystem { get; }
         private IStregsystemUi StregsystemUi { get; }
@@ -38,7 +38,7 @@ namespace stregsystem.Models
             adminCommands.Add(":deactivate", id => SetProductInactive(id));
             adminCommands.Add(":crediton", id => SetProductCreditOn(id));
             adminCommands.Add(":creditoff", id => SetProductCreditOff(id));
-            adminCommands.Add(":addcredits", x => AddCreditsToUser(x));
+            adminCommands.Add(":addcredits", command => AddCreditsToUser(command));
         }
         private void ParseCommand(string input)
         {
@@ -78,7 +78,7 @@ namespace stregsystem.Models
                     break;
             }
         }
-        
+
         private void BuyMultipleProducts(string[] command)
         {
             try
@@ -87,9 +87,13 @@ namespace stregsystem.Models
                 int count = int.Parse(command[1]);
                 Product product = Stregsystem.GetProductByID(int.Parse(command[2]));
                 BuyTransaction buyTransaction = null;
-                if (user.Balance < (count*product.Price))
+                if (user.Balance < (count * product.Price))
                 {
                     StregsystemUi.DisplayInsufficientCash(user, product, count);
+                }
+                if (count < 1)
+                {
+                    throw new NotSupportedException();
                 }
                 else
                 {
@@ -99,6 +103,10 @@ namespace stregsystem.Models
                     }
                     StregsystemUi.DisplayUserBuysProduct(count, buyTransaction);
                 }
+            }
+            catch (NotSupportedException)
+            {
+                StregsystemUi.DisplayGeneralError("Amount has to be greater than 1");
             }
             catch (ProductDoesNotExistException)
             {
@@ -121,7 +129,7 @@ namespace stregsystem.Models
                 StregsystemUi.DisplayGeneralError("Input was invalid");
             }
         }
-        
+
         private void BuyProduct(string[] command)
         {
             try
@@ -260,7 +268,11 @@ namespace stregsystem.Models
             {
                 StregsystemUi.DisplayGeneralError("ID failed to parse");
             }
-            
+
+        }
+        public void UserNotification(User user, decimal balance)
+        {
+            StregsystemUi.DisplayLowBalance(user, balance);
         }
     }
 }

@@ -13,18 +13,7 @@ namespace stregsystem
             IStregsystem stregsystem = new Stregsystem(fileHandler);
             IStregsystemUi ui = new StregsystemCLI(stregsystem);
             StregsystemCommandParser commandParser = new StregsystemCommandParser(stregsystem, ui);
-
             ui.Start();
-
-
-
-            //User user = new User("Emil", "Henriksen", "H", 32m, "Em@il.dk");
-            //Product product = new Product(1, "Ost", 10m, true, false);
-            //BuyTransaction buy = new BuyTransaction(user, product.Price, DateTime.Now, product.Price, product);
-            //BuyTransaction buy2 = new BuyTransaction(user, product.Price, DateTime.Now, product.Price, product);
-            //TransactionLogger transactionLogger = new TransactionLogger();
-            //buy.Execute(transactionLogger);
-            //buy2.Execute(transactionLogger);
         }
     }
 }

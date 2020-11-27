@@ -32,12 +32,5 @@ namespace stregsystem.Models
         {
             return Id + " " + User + " " + Amount + " " + Date;
         }
-
-        //Id
-        //user
-        //date
-        //amount
-        //Tostring
-        //Execute
     }
 }

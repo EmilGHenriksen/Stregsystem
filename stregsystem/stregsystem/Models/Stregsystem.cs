@@ -11,6 +11,7 @@ namespace stregsystem.Models
         List<User> usersList = new List<User>();
         List<Transaction> transactionsList = new List<Transaction>();
         TransactionLogger transactionLogger = new TransactionLogger();
+        public event User.UserBalanceNotification UserBalanceNotification;
         public Stregsystem(FileReader fileHandler)
         {
             productsList = fileHandler.GenerateProductsList();
@@ -39,16 +40,12 @@ namespace stregsystem.Models
 
             return addCreditsToAccount;
         }
-
         public BuyTransaction BuyProduct(User user, Product product)
         {
-            BuyTransaction buyTransaction = new BuyTransaction(user, product.Price, DateTime.Now, product.Price, product);
+            BuyTransaction buyTransaction = new BuyTransaction(user, product.Price, DateTime.Now, product.Price, product, UserBalanceNotification);
             transactionsList.Insert(0, buyTransaction.Execute(transactionLogger));
             return buyTransaction;
         }
-
-        //Custom exception hvis hvis produktet ikke eksisterer. Denne exception indeholder information om produkt og beskrivende besked.
-        //HVORDAN KAN DEN INDEHOLDE INFORMATION OM NOGET DER IKKE EKSISTERER
         public Product GetProductByID(int id)
         {
             foreach (Product product in productsList)
@@ -60,7 +57,6 @@ namespace stregsystem.Models
             }
             throw new ProductDoesNotExistException("The specified product does not exist");
         }
-
         public IEnumerable<Transaction> GetTransactions(User user, int count, bool buyTransactionsOnly)
         {
             int transactionsFound = 0;
@@ -92,9 +88,6 @@ namespace stregsystem.Models
             }
             return users;
         }
-
-        //Custom exception hvis hvis user ikke eksisterer. Denne exception indeholder information om user og beskrivende besked.
-        //HVORDAN KAN DEN INDEHOLDE INFORMATION OM NOGET DER IKKE EKSISTERER
         public User GetUserByUsername(string username)
         {
             foreach (User user in usersList)
@@ -106,6 +99,5 @@ namespace stregsystem.Models
             }
             throw new UserDoesNotExistException("The specified user does not exist");
         }
-        //event UserBalanceNotification UserBalanceWarning;
     }
 }
