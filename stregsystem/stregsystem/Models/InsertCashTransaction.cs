@@ -19,7 +19,7 @@ namespace stregsystem.Models
             /*
                 "A deposit of " + this.Amount + " stregdollars, has been made to user " + this.User.Username + " at " + this.Date + " with ID " + this.Id;
             */
-            return "A deposit has been made - " + "Amount: " + Amount + " User: " + User.ToString() + " Date: " + Date + " Id: " + Id; 
+            return "Deposit: " + "Amount: " + Amount + " User: " + User.ToString() + " Date: " + Date + " Id: " + Id; 
         }
     }
 }

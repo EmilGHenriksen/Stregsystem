@@ -16,6 +16,7 @@ namespace stregsystem.Interfaces
         void DisplayUserBuysProduct(int count, BuyTransaction transaction);
         void Close();
         void DisplayInsufficientCash(User user, Product product);
+        void DisplayInsufficientCash(User user, Product product, int count);
         void DisplayGeneralError(string errorString);
         void Start();
         public event StregsystemCLI.StregsystemEvent CommandEntered;

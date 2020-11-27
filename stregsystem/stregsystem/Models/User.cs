@@ -49,22 +49,20 @@ namespace stregsystem.Models
             }
 
         }
-        // TODO: Lav færdig
         public override bool Equals(object obj)
         {
-            if (obj == null)
+            if (obj.GetType() == typeof(User))
             {
-                return false;
+                User userObj = (User)obj;
+                if (userObj.Id == Id)
+                {
+                    return true;
+                }
+                else
+                    return false;
             }
-            if (this.GetType() != obj.GetType())
-            {
+            else
                 return false;
-            }
-            if (GetHashCode() != obj.GetHashCode())
-            {
-                return false;
-            }
-            throw new NotImplementedException();
         }
         public override int GetHashCode()
         {

@@ -27,7 +27,12 @@ namespace stregsystem.Models
         }
         public void DisplayUserInfo(User user)
         {
-            Console.WriteLine(user.ToString());
+            Console.WriteLine(user.Username + " (" + user.Firstname + " " + user.Lastname + ")"+ " Balance: " + user.Balance);
+            IEnumerable<Transaction> transactions = Stregsystem.GetTransactions(user, 10, true);
+            foreach (Transaction transaction in transactions)
+            {
+                Console.WriteLine(transaction);
+            }
         }
         public void DisplayTooManyArgumentsError(string command)
         {
@@ -53,6 +58,10 @@ namespace stregsystem.Models
         public void DisplayInsufficientCash(User user, Product product)
         {
             Console.WriteLine("Your balance (" + user.Balance + " stregdollars) is too low to buy " + product.Name + " (Price: " + product.Price + ")");
+        }
+        public void DisplayInsufficientCash(User user, Product product, int count)
+        {
+            Console.WriteLine("Your balance (" + user.Balance + " stregdollars) is too low to buy " + count + " of " + product.Name + " (Price: " + product.Price + ")");
         }
         public void DisplayGeneralError(string errorString)
         {

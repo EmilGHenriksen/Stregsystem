@@ -36,6 +36,7 @@ namespace stregsystem.Models
         {
             InsertCashTransaction addCreditsToAccount = new InsertCashTransaction(user, amount, DateTime.Now);
             transactionsList.Insert(0, addCreditsToAccount.Execute(transactionLogger));
+
             return addCreditsToAccount;
         }
 

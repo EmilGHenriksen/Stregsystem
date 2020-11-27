@@ -68,56 +68,84 @@ namespace stregsystem.Models
                     DisplayUserInfo(splitCommand[0]);
                     break;
                 case 2:
-                    BuyProduct(splitCommand[0], int.Parse(splitCommand[1]));
+                    BuyProduct(splitCommand);
                     break;
                 case 3:
-                    BuyMultipleProducts(splitCommand[0], int.Parse(splitCommand[1]), int.Parse(splitCommand[2]));
+                    BuyMultipleProducts(splitCommand);
                     break;
                 default:
                     StregsystemUi.DisplayTooManyArgumentsError(command);
                     break;
             }
         }
-
-        private void BuyMultipleProducts(string username, int id, int count)
+        
+        private void BuyMultipleProducts(string[] command)
         {
             try
             {
-                User user = Stregsystem.GetUserByUsername(username);
-                Product product = Stregsystem.GetProductByID(id);
+                User user = Stregsystem.GetUserByUsername(command[0]);
+                int count = int.Parse(command[1]);
+                Product product = Stregsystem.GetProductByID(int.Parse(command[2]));
                 BuyTransaction buyTransaction = null;
-
-                for (int i = 0; i < count; i++)
+                if (user.Balance < (count*product.Price))
                 {
-                    buyTransaction = Stregsystem.BuyProduct(user, product);
+                    StregsystemUi.DisplayInsufficientCash(user, product, count);
                 }
-                StregsystemUi.DisplayUserBuysProduct(count, buyTransaction);
-            }
-            catch (UserDoesNotExistException)
-            {
-                StregsystemUi.DisplayGeneralError("User does not exist");
+                else
+                {
+                    for (int i = 0; i < count; i++)
+                    {
+                        buyTransaction = Stregsystem.BuyProduct(user, product);
+                    }
+                    StregsystemUi.DisplayUserBuysProduct(count, buyTransaction);
+                }
             }
             catch (ProductDoesNotExistException)
             {
-                StregsystemUi.DisplayGeneralError("Product does not exist");
+                StregsystemUi.DisplayProductNotFound(command[2]);
+            }
+            catch (UserDoesNotExistException)
+            {
+                StregsystemUi.DisplayUserNotFound(command[0]);
+            }
+            catch (ProductNotActiveException)
+            {
+                StregsystemUi.DisplayGeneralError("Product is not active");
+            }
+            catch (InsufficientCreditsException)
+            {
+                StregsystemUi.DisplayGeneralError("Insufficient Credits");
+            }
+            catch (Exception)
+            {
+                StregsystemUi.DisplayGeneralError("Input was invalid");
             }
         }
-        private void BuyProduct(string username, int id)
+        
+        private void BuyProduct(string[] command)
         {
             try
             {
-                User user = Stregsystem.GetUserByUsername(username);
-                Product product = Stregsystem.GetProductByID(id);
+                User user = Stregsystem.GetUserByUsername(command[0]);
+                Product product = Stregsystem.GetProductByID(int.Parse(command[1]));
                 BuyTransaction buyTransaction = Stregsystem.BuyProduct(user, product);
                 StregsystemUi.DisplayUserBuysProduct(buyTransaction);
             }
-            catch (UserDoesNotExistException)
-            {
-                StregsystemUi.DisplayGeneralError("User does not exist");
-            }
             catch (ProductDoesNotExistException)
             {
-                StregsystemUi.DisplayGeneralError("Product does not exist");
+                StregsystemUi.DisplayProductNotFound(command[1]);
+            }
+            catch (UserDoesNotExistException)
+            {
+                StregsystemUi.DisplayUserNotFound(command[0]);
+            }
+            catch (ProductNotActiveException)
+            {
+                StregsystemUi.DisplayGeneralError("Product is not active");
+            }
+            catch (InsufficientCreditsException)
+            {
+                StregsystemUi.DisplayGeneralError("Insufficient Credits");
             }
             catch (Exception)
             {
@@ -129,7 +157,6 @@ namespace stregsystem.Models
             try
             {
                 User user = Stregsystem.GetUserByUsername(username);
-
                 StregsystemUi.DisplayUserInfo(user);
             }
             catch (UserDoesNotExistException)
@@ -139,47 +166,88 @@ namespace stregsystem.Models
         }
         private void SetProductActive(string[] command)
         {
-            // TODO: Add try catch om alle parses
-            int id = int.Parse(command[1]);
-            Product product = Stregsystem.GetProductByID(id);
-            if (product.GetType() == typeof(SeasonalProduct))
+            try
             {
-                throw new SeasonalProductException("Cannot change active state of a seasonal product");
+                int id = int.Parse(command[1]);
+                Product product = Stregsystem.GetProductByID(id);
+                if (product.GetType() == typeof(SeasonalProduct))
+                {
+                    throw new SeasonalProductException("Cannot change active state of a seasonal product");
+                }
+                product.Active = true;
             }
-            product.Active = true;
+            catch (SeasonalProductException)
+            {
+                StregsystemUi.DisplayGeneralError("Unable to change active state on a seasonal product");
+            }
+            catch (Exception)
+            {
+                StregsystemUi.DisplayGeneralError("Invalid input");
+            }
         }
 
         private void SetProductInactive(string[] command)
         {
-            int id = int.Parse(command[1]);
-            Product product = Stregsystem.GetProductByID(id);
-            if (product.GetType() == typeof(SeasonalProduct))
+            try
             {
-                throw new SeasonalProductException("Cannot change active state of a seasonal product");
+                int id = int.Parse(command[1]);
+                Product product = Stregsystem.GetProductByID(id);
+                if (product.GetType() == typeof(SeasonalProduct))
+                {
+                    throw new SeasonalProductException("Cannot change active state of a seasonal product");
+                }
+                product.Active = false;
             }
-            product.Active = false;
+            catch (SeasonalProductException)
+            {
+                StregsystemUi.DisplayGeneralError("Unable to change active state on a seasonal product");
+            }
+            catch (Exception)
+            {
+                StregsystemUi.DisplayGeneralError("Invalid input");
+            }
         }
         private void SetProductCreditOn(string[] command)
         {
-            int id = int.Parse(command[1]);
-            Product product = Stregsystem.GetProductByID(id);
-            
-            product.CanBeBoughtOnCredit = true;
+            try
+            {
+                int id = int.Parse(command[1]);
+                Product product = Stregsystem.GetProductByID(id);
+                product.CanBeBoughtOnCredit = true;
+            }
+            catch (ProductDoesNotExistException)
+            {
+                StregsystemUi.DisplayGeneralError("The product does not exist");
+            }
+            catch (Exception)
+            {
+                StregsystemUi.DisplayGeneralError("Invalid input");
+            }
         }
         private void SetProductCreditOff(string[] command)
         {
-            int id = int.Parse(command[1]);
-            Product product = Stregsystem.GetProductByID(id);
-            
-            product.CanBeBoughtOnCredit = false;
+            try
+            {
+                int id = int.Parse(command[1]);
+                Product product = Stregsystem.GetProductByID(id);
+                product.CanBeBoughtOnCredit = false;
+            }
+            catch (ProductDoesNotExistException)
+            {
+                StregsystemUi.DisplayGeneralError("The product does not exist");
+            }
+            catch (Exception)
+            {
+                StregsystemUi.DisplayGeneralError("Invalid input");
+            }
         }
 
         private void AddCreditsToUser(string[] command)
         {
-            User user = null;
-            decimal amount = 0m;
             try
             {
+                User user = null;
+                decimal amount = 0m;
                 user = Stregsystem.GetUserByUsername(command[1]);
                 amount = decimal.Parse(command[2]);
                 Stregsystem.AddCreditsToAccount(user, amount);
@@ -194,11 +262,5 @@ namespace stregsystem.Models
             }
             
         }
-        
-
-       
-
-
-
     }
 }

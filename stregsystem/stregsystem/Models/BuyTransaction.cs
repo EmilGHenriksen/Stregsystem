@@ -31,7 +31,7 @@ namespace stregsystem.Models
         }
         public override string ToString()
         {
-            return "A Purchase has been made - " + " Price: " + Price + " User: " + User.ToString() + " Product: " + Product + " Date: " + Date + " ID: " + Id;
+            return "Purchase: " + " Price: " + Price + " User: " + User.ToString() + " Product: " + Product.Name + " Date: " + Date + " Transaction ID: " + Id;
         }
     }
 }
