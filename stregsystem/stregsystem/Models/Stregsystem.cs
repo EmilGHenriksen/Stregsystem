@@ -10,14 +10,27 @@ namespace stregsystem.Models
         List<Product> productsList = new List<Product>();
         List<User> usersList = new List<User>();
         List<Transaction> transactionsList = new List<Transaction>();
-        public Stregsystem(FileHandler fileHandler)
+        public Stregsystem(FileReader fileHandler)
         {
             productsList = fileHandler.GenerateProductsList();
             usersList = fileHandler.GenerateUsersList();
-
         }
 
-        public IEnumerable<Product> ActiveProducts { get; }
+        public IEnumerable<Product> ActiveProducts { 
+
+            get
+            {
+                List<Product> activeProducts = new List<Product>();
+                foreach (Product product in productsList)     
+                {
+                    if (product.Active)
+                    {
+                        activeProducts.Add(product);
+                    }
+                }
+                return activeProducts;
+            }
+        }
         public InsertCashTransaction AddCreditsToAccount(User user, int amount)
         {
             InsertCashTransaction addCreditsToAccount = new InsertCashTransaction(user, amount, DateTime.Now);
@@ -30,7 +43,8 @@ namespace stregsystem.Models
             return buyTransaction;
         }
 
-        // TODO: Custom exception hvis hvis produktet ikke eksisterer. Denne exception indeholder information om produkt og beskrivende besked.
+        //Custom exception hvis hvis produktet ikke eksisterer. Denne exception indeholder information om produkt og beskrivende besked.
+        //HVORDAN KAN DEN INDEHOLDE INFORMATION OM NOGET DER IKKE EKSISTERER
         public Product GetProductByID(int id)
         {
             foreach (Product product in productsList)
@@ -40,7 +54,7 @@ namespace stregsystem.Models
                     return product;
                 }
             }
-            throw new NotImplementedException();
+            throw new ProductDoesNotExistException("The specified product does not exist");
         }
 
         public IEnumerable<Transaction> GetTransactions(User user, int count, bool buyTransactionsOnly)
@@ -61,12 +75,22 @@ namespace stregsystem.Models
             }
             return transactions;
         }
-        public User GetUsers(Func<User, bool> predicate)
+        //Lavet om fra User GetUsers til IEnumerable<User> GetUsers da det er flertal og giver mening det er en liste.
+        public IEnumerable<User> GetUsers(Func<User, bool> predicate)
         {
-            throw new NotImplementedException();
+            List<User> users = new List<User>();
+            foreach (User user in usersList)
+            {
+                if (predicate(user))
+                {
+                    users.Add(user);
+                }
+            }
+            return users;
         }
 
-        // TODO: Custom exception hvis hvis user ikke eksisterer. Denne exception indeholder information om user og beskrivende besked.
+        //Custom exception hvis hvis user ikke eksisterer. Denne exception indeholder information om user og beskrivende besked.
+        //HVORDAN KAN DEN INDEHOLDE INFORMATION OM NOGET DER IKKE EKSISTERER
         public User GetUserByUsername(string username)
         {
             foreach (User user in usersList)
@@ -76,9 +100,8 @@ namespace stregsystem.Models
                     return user;
                 }
             }
-            throw new NotImplementedException();
+            throw new UserDoesNotExistException("The specified user does not exist");
         }
-        // TODO: Make event on low userbalance
         //event UserBalanceNotification UserBalanceWarning;
     }
 }

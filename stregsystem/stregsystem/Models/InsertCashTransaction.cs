@@ -9,16 +9,16 @@ namespace stregsystem.Models
         public InsertCashTransaction(User user, decimal amount, DateTime date) : base(user, amount, date)
         {
         }
-        public override void Execute()
+        public override void Execute(TransactionLogger transactionLogger)
         {
             User.Balance += Amount;
         }
         public override string ToString()
         {
             /*
-                "A deposit of " + this.Amount + " stregdollars, has been made to user " + this.User.Username + " at " + this.Date + " with ID " + this.Id
+                "A deposit of " + this.Amount + " stregdollars, has been made to user " + this.User.Username + " at " + this.Date + " with ID " + this.Id;
             */
-            return "Deposit - " + "Amount: " + Amount + " User: " + User.ToString() + " Date: " + Date + " Id: " + Id;
+            return "A deposit has been made - " + "Amount: " + Amount + " User: " + User.ToString() + " Date: " + Date + " Id: " + Id; 
         }
     }
 }

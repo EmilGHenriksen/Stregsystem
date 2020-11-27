@@ -27,7 +27,7 @@ namespace stregsystem.Models
 
         public override string ToString()
         {
-            return Id + " " + Name + " " + Price;
+            return Id + " | "  + Name + " | " + Price;
         }
     }
 }

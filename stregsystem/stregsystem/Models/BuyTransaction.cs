@@ -13,18 +13,24 @@ namespace stregsystem.Models
         }
         public decimal Price { get; set; }
         public Product Product { get; set; }
-        public override void Execute()
+        public override void Execute(TransactionLogger transactionLogger)
         {
-            //TODO: Lav insuficcientCreditsException
-            if (User.Balance - Price < 0)
+            if (User.Balance < Product.Price && !Product.CanBeBoughtOnCredit)
             {
-                throw new NotImplementedException();
+                throw new InsufficientCreditsException("User has insufficient balance for product", User, Product);
+            }
+            if (!Product.Active)
+            {
+                throw new ProductNotActiveException("The product is not active", User, Product);
             }
             User.Balance -= Price;
+
+            transactionLogger.WriteBuyTransactionToTransactionLog(this);
+            // TODO: UserBalanceNotification
         }
         public override string ToString()
         {
-            return "Purchase - " + " Price: " + Price + " User: " + User.ToString() + " Product: " + Product + " Date: " + Date + " ID: " + Id;
+            return "A Purchase has been made - " + " Price: " + Price + " User: " + User.ToString() + " Product: " + Product + " Date: " + Date + " ID: " + Id;
         }
     }
 }

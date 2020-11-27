@@ -49,6 +49,26 @@ namespace stregsystem.Models
             }
 
         }
-        // TODO: Gethashcode
+        // TODO: Lav færdig
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            if (this.GetType() != obj.GetType())
+            {
+                return false;
+            }
+            if (GetHashCode() != obj.GetHashCode())
+            {
+                return false;
+            }
+            throw new NotImplementedException();
+        }
+        public override int GetHashCode()
+        {
+            return Id;
+        }
     }
 }

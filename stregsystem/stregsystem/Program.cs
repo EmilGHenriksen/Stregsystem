@@ -9,22 +9,21 @@ namespace stregsystem
     {
         static void Main(string[] args)
         {
-            FileHandler fileloader = new FileHandler();
-            List<Product> testList = fileloader.GenerateProductsList();
-            List<User> testListUser = fileloader.GenerateUsersList();
+            FileReader fileHandler = new FileReader();
+            IStregsystem stregsystem = new Stregsystem(fileHandler);
+            IStregsystemUi ui = new StregsystemCLI(stregsystem);
 
-            foreach (Product item in testList)
-            {
-                Console.WriteLine(item);
-            }
-            foreach (User item in testListUser)
-            {
-                Console.WriteLine(item);
-            }
-            //DateTime now = DateTime.Now;
-            //User user = new User("Emil", "Henriksen", "H", "Em@il.dk");
-            //InsertCashTransaction insert = new InsertCashTransaction(user, 1, 311, now);
-            //Console.WriteLine(insert.ToString());
+            ui.Start();
+
+
+
+            //User user = new User("Emil", "Henriksen", "H", 32m, "Em@il.dk");
+            //Product product = new Product(1, "Ost", 10m, true, false);
+            //BuyTransaction buy = new BuyTransaction(user, product.Price, DateTime.Now, product.Price, product);
+            //BuyTransaction buy2 = new BuyTransaction(user, product.Price, DateTime.Now, product.Price, product);
+            //TransactionLogger transactionLogger = new TransactionLogger();
+            //buy.Execute(transactionLogger);
+            //buy2.Execute(transactionLogger);
         }
     }
 }

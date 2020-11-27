@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using stregsystem.Models;
 
 namespace stregsystem.Interfaces
 {
@@ -17,7 +18,7 @@ namespace stregsystem.Interfaces
         void DisplayInsufficientCash(User user, Product product);
         void DisplayGeneralError(string errorString);
         void Start();
-        event StregsystemEvent CommandEntered;
-
+        public delegate void StregsystemEvent(string input);
+        public event StregsystemEvent CommandEntered;
     }
 }
