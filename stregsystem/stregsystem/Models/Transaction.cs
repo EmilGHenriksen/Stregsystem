@@ -27,7 +27,7 @@ namespace stregsystem.Models
         public decimal Amount { get; set; }
         public DateTime Date { get; set; }
 
-        public abstract void Execute(TransactionLogger transactionLogger);
+        public abstract Transaction Execute(TransactionLogger transactionLogger);
         public override string ToString()
         {
             return Id + " " + User + " " + Amount + " " + Date;

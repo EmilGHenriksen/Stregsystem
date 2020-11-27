@@ -9,9 +9,10 @@ namespace stregsystem.Models
         public InsertCashTransaction(User user, decimal amount, DateTime date) : base(user, amount, date)
         {
         }
-        public override void Execute(TransactionLogger transactionLogger)
+        public override Transaction Execute(TransactionLogger transactionLogger)
         {
             User.Balance += Amount;
+            return this;
         }
         public override string ToString()
         {

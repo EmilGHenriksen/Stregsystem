@@ -10,6 +10,7 @@ namespace stregsystem.Models
         List<Product> productsList = new List<Product>();
         List<User> usersList = new List<User>();
         List<Transaction> transactionsList = new List<Transaction>();
+        TransactionLogger transactionLogger = new TransactionLogger();
         public Stregsystem(FileReader fileHandler)
         {
             productsList = fileHandler.GenerateProductsList();
@@ -31,15 +32,17 @@ namespace stregsystem.Models
                 return activeProducts;
             }
         }
-        public InsertCashTransaction AddCreditsToAccount(User user, int amount)
+        public InsertCashTransaction AddCreditsToAccount(User user, decimal amount)
         {
             InsertCashTransaction addCreditsToAccount = new InsertCashTransaction(user, amount, DateTime.Now);
+            transactionsList.Insert(0, addCreditsToAccount.Execute(transactionLogger));
             return addCreditsToAccount;
         }
 
         public BuyTransaction BuyProduct(User user, Product product)
         {
             BuyTransaction buyTransaction = new BuyTransaction(user, product.Price, DateTime.Now, product.Price, product);
+            transactionsList.Insert(0, buyTransaction.Execute(transactionLogger));
             return buyTransaction;
         }
 

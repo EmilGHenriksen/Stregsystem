@@ -8,15 +8,14 @@ namespace stregsystem.Models
     public class StregsystemCLI : IStregsystemUi
     {
         bool running = false;
+        public delegate void StregsystemEvent(string input);
+        public event StregsystemEvent CommandEntered;
 
         public StregsystemCLI(IStregsystem stregsystem)
         {
             Stregsystem = stregsystem;
         }
         private IStregsystem Stregsystem;
-
-        public delegate void StregsystemEvent(string input);
-        public event StregsystemEvent CommandEntered;
 
         public void DisplayUserNotFound(string username)
         {
@@ -40,7 +39,7 @@ namespace stregsystem.Models
         }
         public void DisplayUserBuysProduct(BuyTransaction transaction)
         {
-            Console.WriteLine("User " + transaction.User.Username + " bought " + transaction.Product + " for " + transaction.Product.Price);
+            Console.WriteLine("User " + transaction.User.Username + " bought " + transaction.Product.Name + " for " + transaction.Product.Price);
         }
         public void DisplayUserBuysProduct(int count, BuyTransaction transaction)
         {

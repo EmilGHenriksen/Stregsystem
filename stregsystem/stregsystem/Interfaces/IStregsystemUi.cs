@@ -18,7 +18,6 @@ namespace stregsystem.Interfaces
         void DisplayInsufficientCash(User user, Product product);
         void DisplayGeneralError(string errorString);
         void Start();
-        public delegate void StregsystemEvent(string input);
-        public event StregsystemEvent CommandEntered;
+        public event StregsystemCLI.StregsystemEvent CommandEntered;
     }
 }

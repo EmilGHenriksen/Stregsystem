@@ -8,7 +8,7 @@ namespace stregsystem.Interfaces
     public interface IStregsystem
     {
         IEnumerable<Product> ActiveProducts { get; }
-        InsertCashTransaction AddCreditsToAccount(User user, int amount);
+        InsertCashTransaction AddCreditsToAccount(User user, decimal amount);
         BuyTransaction BuyProduct(User user, Product product);
         Product GetProductByID(int id);
         IEnumerable<Transaction> GetTransactions(User user, int count, bool buyTransactionsOnly);

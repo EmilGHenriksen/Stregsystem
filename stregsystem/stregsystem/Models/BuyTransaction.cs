@@ -13,7 +13,7 @@ namespace stregsystem.Models
         }
         public decimal Price { get; set; }
         public Product Product { get; set; }
-        public override void Execute(TransactionLogger transactionLogger)
+        public override Transaction Execute(TransactionLogger transactionLogger)
         {
             if (User.Balance < Product.Price && !Product.CanBeBoughtOnCredit)
             {
@@ -26,6 +26,7 @@ namespace stregsystem.Models
             User.Balance -= Price;
 
             transactionLogger.WriteBuyTransactionToTransactionLog(this);
+            return this;
             // TODO: UserBalanceNotification
         }
         public override string ToString()

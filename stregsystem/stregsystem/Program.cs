@@ -12,6 +12,7 @@ namespace stregsystem
             FileReader fileHandler = new FileReader();
             IStregsystem stregsystem = new Stregsystem(fileHandler);
             IStregsystemUi ui = new StregsystemCLI(stregsystem);
+            StregsystemCommandParser commandParser = new StregsystemCommandParser(stregsystem, ui);
 
             ui.Start();
 
